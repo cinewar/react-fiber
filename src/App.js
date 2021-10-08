@@ -1,10 +1,9 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Canvas, extend, useThree } from "@react-three/fiber";
 import { useState, useRef } from "react";
 import { useSpring, animated } from "@react-spring/three";
-
+import { OrbitControls } from "@react-three/drei";
 extend({ OrbitControls });
 
 const Controls = () => {
@@ -27,7 +26,7 @@ const Box = () => {
   const [active, setActive] = useState(false);
   const props = useSpring({
     scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
-    color: hovered ? "hotpink" : "gray",
+    color: hovered ? "hotpink" : "black",
   });
   return (
     <animated.mesh
@@ -36,8 +35,10 @@ const Box = () => {
       onPointerOut={() => setHovered(false)}
       scale={props.scale}
     >
+      <ambientLight />
+      <spotLight position={[0, 5, 10]} />
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-      <animated.meshBasicMaterial attach="material" color={props.color} />
+      <animated.meshPhysicalMaterial attach="material" color={props.color} />
     </animated.mesh>
   );
 };
@@ -46,7 +47,12 @@ function App() {
   return (
     <div style={{ height: "100vh" }}>
       <Canvas>
-        <Controls />
+        {/* <Controls /> */}
+        <OrbitControls
+          maxPolarAngle={Math.PI / 3}
+          minPolarAngle={Math.PI / 3}
+          autoRotate
+        />
         <Box />
       </Canvas>
     </div>
