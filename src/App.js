@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { Canvas, extend, useThree, useRender } from "@react-three/fiber";
+import { Canvas, extend, useThree } from "@react-three/fiber";
 import { useState, useRef } from "react";
 import { useSpring, animated } from "@react-spring/three";
 
@@ -11,7 +11,15 @@ const Controls = () => {
   const orbitRef = useRef();
   const { camera, gl } = useThree();
 
-  return <orbitControls ref={orbitRef} args={[camera, gl.domElement]} />;
+  return (
+    <orbitControls
+      autoRotate={true}
+      maxPolarAngle={Math.PI / 3}
+      minPolarAngle={Math.PI / 3}
+      ref={orbitRef}
+      args={[camera, gl.domElement]}
+    />
+  );
 };
 
 const Box = () => {
